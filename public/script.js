@@ -471,7 +471,7 @@ function sendEmailJs(templateId, payload) {
 
 async function postToGoogleSheets(url, payload) {
   try {
-    const response = await fetch('/api/sheets', {   // <-- must be this
+    const response = await fetch('/api/sheets-proxy', {   // <-- use this endpoint
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
