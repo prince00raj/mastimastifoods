@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Masti Masti Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2b84b; }
+        button { margin: 5px; padding: 5px 10px; cursor: pointer; }
+        .approved { background-color: #d4edda; }
+        .rejected { background-color: #f8d7da; }
+        #login { margin-top: 100px; text-align: center; }
+    </style>
+</head>
+<body>
+<div id="login">
+    <h2>Admin Login</h2>
+    <input type="password" id="password" placeholder="Enter password">
+    <button onclick="login()">Login</button>
+    <p id="errorMsg" style="color:red"></p>
+</div>
+<div id="adminPanel" style="display:none;">
+    <h1>Stockist Applications – Pending</h1>
+    <table id="pendingTable">
+        <thead>
+        <tr><th>Name</th><th>Email</th><th>Mobile</th><th>Store</th><th>City</th><th>Type</th><th>Message</th><th>Submitted</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+    let token = '';
+
+    function login() {
+        const pwd = document.getElementById('password').value;
+        fetch('/api/get-pending-stockists', {
+            headers: { 'Authorization': `Bearer ${pwd}` }
+        })
+        .then(res => {
+            if (res.status === 401) throw new Error('Wrong password');
+            return res.json();
+        })
+        .then(data => {
+            token = pwd;
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadPending();
+        })
+        .catch(err => {
+            document.getElementById('errorMsg').innerText = err.message;
+        });
+    }
+
+    function loadPending() {
+        fetch('/api/get-pending-stockists', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+        .then(res => res.json())
+        .then(applications => {
+            const tbody = document.querySelector('#pendingTable tbody');
+            tbody.innerHTML = '';
+            applications.forEach(app => {
+                const row = tbody.insertRow();
+                row.insertCell(0).innerText = app.name;
+                row.insertCell(1).innerText = app.email;
+                row.insertCell(2).innerText = app.mobile;
+                row.insertCell(3).innerText = app.store;
+                row.insertCell(4).innerText = app.city;
+                row.insertCell(5).innerText = app.type;
+                row.insertCell(6).innerText = app.message;
+                row.insertCell(7).innerText = app.submittedAt;
+                const actions = row.insertCell(8);
+                const approveBtn = document.createElement('button');
+                approveBtn.innerText = 'Approve';
+                approveBtn.onclick = () => approve(app);
+                const rejectBtn = document.createElement('button');
+                rejectBtn.innerText = 'Reject';
+                rejectBtn.onclick = () => reject(app);
+                actions.appendChild(approveBtn);
+                actions.appendChild(rejectBtn);
+            });
+        });
+    }
+
+    function approve(app) {
+        fetch('/api/approve-stockist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ rowNumber: app.rowNumber, name: app.name, email: app.email, city: app.city, store: app.store })
+        })
+        .then(() => loadPending());
+    }
+
+    function reject(app) {
+        fetch('/api/reject-stockist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ rowNumber: app.rowNumber })
+        })
+        .then(() => loadPending());
+    }
+</script>
+</body>
+</html>
