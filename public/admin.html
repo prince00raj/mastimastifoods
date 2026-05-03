@@ -1,113 +1,535 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Masti Masti Admin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Masti Masti Admin – Stockist Approvals</title>
     <style>
-        body { font-family: Arial; padding: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2b84b; }
-        button { margin: 5px; padding: 5px 10px; cursor: pointer; }
-        .approved { background-color: #d4edda; }
-        .rejected { background-color: #f8d7da; }
-        #login { margin-top: 100px; text-align: center; }
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          background: #f7f3e9;
+          font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+          padding: 2rem 1rem;
+          color: #2c2b28;
+        }
+
+        .admin-container {
+          max-width: 1400px;
+          margin: 0 auto;
+        }
+
+        /* login box */
+        .login-card {
+          background: white;
+          border-radius: 32px;
+          box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+          padding: 2rem 2rem 2.5rem;
+          max-width: 460px;
+          margin: 10vh auto;
+          text-align: center;
+          border: 1px solid #f2d9b0;
+        }
+
+        .login-card h2 {
+          font-size: 2rem;
+          color: #d84627;
+          margin-bottom: 0.5rem;
+        }
+
+        .login-card p {
+          color: #5e5b56;
+          margin-bottom: 1.8rem;
+        }
+
+        .login-card input {
+          width: 100%;
+          padding: 14px 18px;
+          font-size: 1rem;
+          border: 1px solid #e2d5c0;
+          border-radius: 60px;
+          outline: none;
+          transition: 0.2s;
+          margin-bottom: 1.2rem;
+        }
+
+        .login-card input:focus {
+          border-color: #d84627;
+          box-shadow: 0 0 0 3px rgba(216, 70, 39, 0.2);
+        }
+
+        .login-card button {
+          background: #d84627;
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          font-size: 1rem;
+          font-weight: 600;
+          border-radius: 60px;
+          cursor: pointer;
+          width: 100%;
+          transition: background 0.2s;
+        }
+
+        .login-card button:hover {
+          background: #b33a1f;
+        }
+
+        .error-msg {
+          color: #c00;
+          margin-top: 1rem;
+          font-size: 0.9rem;
+        }
+
+        /* main admin panel */
+        .admin-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-bottom: 2rem;
+          background: white;
+          padding: 1rem 1.8rem;
+          border-radius: 80px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .admin-header h1 {
+          font-size: 1.7rem;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: #2c2b28;
+        }
+
+        .admin-header h1:before {
+          content: "📋";
+          font-size: 1.8rem;
+        }
+
+        .badge-pending {
+          background: #fff3cd;
+          color: #856404;
+          padding: 4px 12px;
+          border-radius: 40px;
+          font-weight: 600;
+          font-size: 0.8rem;
+        }
+
+        /* filters */
+        .filters-bar {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          background: white;
+          padding: 1rem 1.5rem;
+          border-radius: 60px;
+          margin-bottom: 2rem;
+          align-items: center;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .filters-bar input, .filters-bar select {
+          padding: 10px 16px;
+          border-radius: 40px;
+          border: 1px solid #e6dbc9;
+          background: white;
+          font-size: 0.9rem;
+          min-width: 180px;
+        }
+
+        .filters-bar button {
+          background: #f2b84b;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 40px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: 0.2s;
+        }
+
+        .filters-bar button:hover {
+          background: #e5a234;
+        }
+
+        /* table wrapper */
+        .table-wrapper {
+          overflow-x: auto;
+          border-radius: 28px;
+          background: white;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 0.85rem;
+        }
+
+        th {
+          background: #fdf5e6;
+          padding: 16px 12px;
+          text-align: left;
+          font-weight: 700;
+          color: #4a3b2c;
+          border-bottom: 2px solid #f2d9b0;
+        }
+
+        td {
+          padding: 14px 12px;
+          border-bottom: 1px solid #f0e5d8;
+          vertical-align: middle;
+        }
+
+        .status-badge {
+          display: inline-block;
+          padding: 4px 12px;
+          border-radius: 30px;
+          font-weight: 600;
+          font-size: 0.75rem;
+        }
+
+        .status-Pending {
+          background: #fff1cc;
+          color: #aa6f20;
+        }
+
+        .status-Approved {
+          background: #e0f2e5;
+          color: #1f7840;
+        }
+
+        .status-Rejected {
+          background: #ffe6e5;
+          color: #bc2c1e;
+        }
+
+        .action-btns {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .btn-approve {
+          background: #2b7a3e;
+          color: white;
+          border: none;
+          padding: 6px 14px;
+          border-radius: 40px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: 0.2s;
+        }
+
+        .btn-reject {
+          background: #c2412c;
+          color: white;
+          border: none;
+          padding: 6px 14px;
+          border-radius: 40px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: 0.2s;
+        }
+
+        .btn-approve:hover { background: #1f5e2f; }
+        .btn-reject:hover { background: #9b2c1a; }
+
+        .status-msg {
+          margin-top: 20px;
+          text-align: center;
+          font-weight: 500;
+        }
+
+        footer {
+          margin-top: 3rem;
+          text-align: center;
+          font-size: 0.75rem;
+          color: #9b8e7c;
+        }
+
+        @media (max-width: 720px) {
+          body { padding: 1rem; }
+          .admin-header { border-radius: 32px; }
+          th, td { font-size: 0.75rem; padding: 10px 8px; }
+        }
     </style>
 </head>
 <body>
-<div id="login">
-    <h2>Admin Login</h2>
-    <input type="password" id="password" placeholder="Enter password">
-    <button onclick="login()">Login</button>
-    <p id="errorMsg" style="color:red"></p>
-</div>
-<div id="adminPanel" style="display:none;">
-    <h1>Stockist Applications – Pending</h1>
-    <table id="pendingTable">
-        <thead>
-        <tr><th>Name</th><th>Email</th><th>Mobile</th><th>Store</th><th>City</th><th>Type</th><th>Message</th><th>Submitted</th><th>Actions</th></tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<div class="admin-container">
+    <!-- LOGIN SECTION -->
+    <div id="loginSection" class="login-card">
+        <h2>🔐 Admin Access</h2>
+        <p>Enter your secure password to manage stockist applications</p>
+        <input type="password" id="adminPassword" placeholder="Admin password" autofocus>
+        <button id="loginBtn">Login to Dashboard</button>
+        <div id="loginError" class="error-msg"></div>
+    </div>
+
+    <!-- MAIN DASHBOARD (hidden until login) -->
+    <div id="dashboardSection" style="display: none;">
+        <div class="admin-header">
+            <h1>Stockist Applications</h1>
+            <div><span class="badge-pending" id="pendingCount">0 pending</span></div>
+        </div>
+
+        <div class="filters-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Search name / email / store" autocomplete="off">
+            <select id="statusFilter">
+                <option value="all">All statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+            <button id="refreshBtn">⟳ Refresh</button>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="stockistTable">
+                <thead>
+                <tr>
+                    <th>Status</th><th>Name</th><th>Email</th><th>Mobile</th><th>Store</th>
+                    <th>City</th><th>Type</th><th>Message</th><th>Submitted</th><th>Member Pass</th><th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                <tr><td colspan="11">Loading applications...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="statusMessage" class="status-msg"></div>
+        <footer>Masti Masti – stockist approval panel</footer>
+    </div>
 </div>
 
 <script>
-    let token = '';
+    let token = null;
+    let allApplications = [];
 
-    function login() {
-        const pwd = document.getElementById('password').value;
-        fetch('/api/get-pending-stockists', {
-            headers: { 'Authorization': `Bearer ${pwd}` }
-        })
-        .then(res => {
-            if (res.status === 401) throw new Error('Wrong password');
-            return res.json();
-        })
-        .then(data => {
-            token = pwd;
-            document.getElementById('login').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-            loadPending();
-        })
-        .catch(err => {
-            document.getElementById('errorMsg').innerText = err.message;
+    // DOM elements
+    const loginSection = document.getElementById('loginSection');
+    const dashboard = document.getElementById('dashboardSection');
+    const loginBtn = document.getElementById('loginBtn');
+    const adminPassword = document.getElementById('adminPassword');
+    const loginError = document.getElementById('loginError');
+    const tableBody = document.getElementById('tableBody');
+    const searchInput = document.getElementById('searchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const statusMsgDiv = document.getElementById('statusMessage');
+    const pendingCountSpan = document.getElementById('pendingCount');
+
+    // Helper: show status message temporarily
+    function showMessage(text, isError = false) {
+      statusMsgDiv.innerHTML = `<span style="color:${isError ? '#c00' : '#2b7a3e'}">${text}</span>`;
+      setTimeout(() => { if (statusMsgDiv) statusMsgDiv.innerHTML = ''; }, 3500);
+    }
+
+    // Render table with current filter
+    function renderTable() {
+      if (!tableBody) return;
+      const searchTerm = searchInput.value.toLowerCase();
+      const filterStatus = statusFilter.value;
+
+      let filtered = allApplications.filter(app => {
+        const matchSearch = app.name.toLowerCase().includes(searchTerm) ||
+                            app.email.toLowerCase().includes(searchTerm) ||
+                            app.store.toLowerCase().includes(searchTerm);
+        const matchStatus = filterStatus === 'all' || app.status === filterStatus;
+        return matchSearch && matchStatus;
+      });
+
+      // update pending count badge (total pending in the full list)
+      const pendingTotal = allApplications.filter(a => a.status === 'Pending').length;
+      pendingCountSpan.innerText = `${pendingTotal} pending`;
+
+      if (filtered.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="11">✨ No applications match your filters.</td></tr>';
+        return;
+      }
+
+      let html = '';
+      for (const app of filtered) {
+        const statusClass = `status-${app.status}`;
+        const passIdDisplay = app.memberPassId ? app.memberPassId.slice(0, 18) : '—';
+        html += `
+          <tr>
+            <td><span class="status-badge ${statusClass}">${app.status}</span></td>
+            <td><strong>${escapeHtml(app.name)}</strong></td>
+            <td>${escapeHtml(app.email)}</td>
+            <td>${app.mobile || '—'}</td>
+            <td>${escapeHtml(app.store)}</td>
+            <td>${escapeHtml(app.city)}</td>
+            <td>${app.type || '—'}</td>
+            <td style="max-width:200px; white-space:normal;">${escapeHtml(app.message || '—')}</td>
+            <td>${formatDate(app.submittedAt)}</td>
+            <td>${passIdDisplay}</td>
+            <td class="action-btns">
+              ${app.status === 'Pending' ? `
+                <button class="btn-approve" data-row="${app.rowNumber}" data-name="${escapeHtml(app.name)}" data-email="${app.email}" data-city="${escapeHtml(app.city)}" data-store="${escapeHtml(app.store)}">Approve</button>
+                <button class="btn-reject" data-row="${app.rowNumber}">Reject</button>
+              ` : '—'}
+            </td>
+          </tr>
+        `;
+      }
+      tableBody.innerHTML = html;
+
+      // attach event listeners to dynamic buttons
+      document.querySelectorAll('.btn-approve').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const row = parseInt(btn.dataset.row);
+          const name = btn.dataset.name;
+          const email = btn.dataset.email;
+          const city = btn.dataset.city;
+          const store = btn.dataset.store;
+          approveApplication(row, name, email, city, store);
         });
-    }
-
-    function loadPending() {
-        fetch('/api/get-pending-stockists', {
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-        .then(res => res.json())
-        .then(applications => {
-            const tbody = document.querySelector('#pendingTable tbody');
-            tbody.innerHTML = '';
-            applications.forEach(app => {
-                const row = tbody.insertRow();
-                row.insertCell(0).innerText = app.name;
-                row.insertCell(1).innerText = app.email;
-                row.insertCell(2).innerText = app.mobile;
-                row.insertCell(3).innerText = app.store;
-                row.insertCell(4).innerText = app.city;
-                row.insertCell(5).innerText = app.type;
-                row.insertCell(6).innerText = app.message;
-                row.insertCell(7).innerText = app.submittedAt;
-                const actions = row.insertCell(8);
-                const approveBtn = document.createElement('button');
-                approveBtn.innerText = 'Approve';
-                approveBtn.onclick = () => approve(app);
-                const rejectBtn = document.createElement('button');
-                rejectBtn.innerText = 'Reject';
-                rejectBtn.onclick = () => reject(app);
-                actions.appendChild(approveBtn);
-                actions.appendChild(rejectBtn);
-            });
+      });
+      document.querySelectorAll('.btn-reject').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const row = parseInt(btn.dataset.row);
+          rejectApplication(row);
         });
+      });
     }
 
-    function approve(app) {
-        fetch('/api/approve-stockist', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ rowNumber: app.rowNumber, name: app.name, email: app.email, city: app.city, store: app.store })
-        })
-        .then(() => loadPending());
+    // escape HTML to prevent injection
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+        return c;
+      });
     }
 
-    function reject(app) {
-        fetch('/api/reject-stockist', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ rowNumber: app.rowNumber })
-        })
-        .then(() => loadPending());
+    function formatDate(dateStr) {
+      if (!dateStr) return '—';
+      try {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+      } catch(e) { return dateStr.slice(0,10); }
     }
+
+    // fetch all applications from API
+    async function fetchAllApplications() {
+      try {
+        const res = await fetch('/api/get-all-stockists', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) {
+          if (res.status === 401) throw new Error('Authentication failed. Please login again.');
+          throw new Error(`Server error: ${res.status}`);
+        }
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('Invalid response format');
+        allApplications = data;
+        renderTable();
+      } catch (err) {
+        console.error(err);
+        showMessage(err.message, true);
+        if (err.message.includes('Authentication')) logout();
+      }
+    }
+
+    // Approve
+    async function approveApplication(row, name, email, city, store) {
+      try {
+        const res = await fetch('/api/approve-stockist', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ rowNumber: row, name, email, city, store })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          showMessage(`✅ Application approved. Member pass generated.`);
+          await fetchAllApplications(); // refresh list
+        } else {
+          showMessage(`❌ Error: ${data.error || 'Unknown'}`, true);
+        }
+      } catch (err) {
+        showMessage('Network error while approving.', true);
+      }
+    }
+
+    // Reject
+    async function rejectApplication(row) {
+      try {
+        const res = await fetch('/api/reject-stockist', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ rowNumber: row })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          showMessage(`❌ Application rejected.`);
+          await fetchAllApplications();
+        } else {
+          showMessage(`Error: ${data.error}`, true);
+        }
+      } catch (err) {
+        showMessage('Network error while rejecting.', true);
+      }
+    }
+
+    function logout() {
+      token = null;
+      loginSection.style.display = 'block';
+      dashboard.style.display = 'none';
+      adminPassword.value = '';
+      loginError.innerText = '';
+      allApplications = [];
+    }
+
+    // Login handler
+    loginBtn.addEventListener('click', async () => {
+      const pwd = adminPassword.value.trim();
+      if (!pwd) {
+        loginError.innerText = 'Please enter password.';
+        return;
+      }
+      loginError.innerText = '';
+      try {
+        const res = await fetch('/api/get-all-stockists', {
+          headers: { 'Authorization': `Bearer ${pwd}` }
+        });
+        if (res.status === 401) throw new Error('Wrong password');
+        if (!res.ok) throw new Error(`Server error ${res.status}`);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('Invalid API response');
+        token = pwd;
+        allApplications = data;
+        loginSection.style.display = 'none';
+        dashboard.style.display = 'block';
+        renderTable();
+      } catch (err) {
+        loginError.innerText = err.message;
+      }
+    });
+
+    // event listeners for filters & refresh
+    searchInput.addEventListener('input', () => renderTable());
+    statusFilter.addEventListener('change', () => renderTable());
+    refreshBtn.addEventListener('click', () => fetchAllApplications());
+
+    // Also initialise if token exists? no token after page reload.
+    // ensure logout on auth error
+    window.logout = logout;
 </script>
 </body>
 </html>
