@@ -81,15 +81,14 @@
     const APPS_SCRIPT_ADMIN_URL = "https://script.google.com/macros/s/AKfycbwbQOdvPg-ZqyRsINUSxM9ubAuycyilZyzkrPgA7XZMXpnoli5p9YsupvpY1PYO15wBgg/exec?page=admin&pass=swadesh123";
 
     function login() {
-      const entered = document.getElementById('adminPassword').value;
-      if (entered !== VERCEL_ADMIN_PASSWORD) {
-        document.getElementById('errorMsg').innerText = 'Wrong password';
-        return;
-      }
-      document.getElementById('loginWrapper').style.display = 'none';
-      document.getElementById('dashboardWrapper').style.display = 'block';
-      document.getElementById('adminIframe').src = APPS_SCRIPT_ADMIN_URL;
-    }
+  const entered = document.getElementById('adminPassword').value;
+  if (entered !== VERCEL_ADMIN_PASSWORD) {
+    document.getElementById('errorMsg').innerText = 'Wrong password';
+    return;
+  }
+  // Redirect to the Apps Script admin page (no iframe)
+  window.location.href = APPS_SCRIPT_ADMIN_URL;
+}
 
     function logout() {
       document.getElementById('loginWrapper').style.display = 'block';
