@@ -470,14 +470,15 @@ function sendEmailJs(templateId, payload) {
 }
 
 async function postToGoogleSheets(url, payload) {
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/1hcNGsx63a1iu3oxVLDUZEtDqFjE6D6Jzzge6C3suQJ4/exec";
+  // Use your Apps Script Web App URL directly (no proxy)
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbyTP2j9hIyG_RuU-anRm3QD2NnNzmbBgV8HzV2A_RcLbWCpSS0jjHe1OmXX9mEa4_5iOw/exec/exec"; // <-- replace with your actual URL
   try {
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    const data = await response.text();  // or .json() if the script returns JSON
+    const data = await response.json();
     console.log('Google Sheets Response:', data);
     return { success: true, data };
   } catch (error) {
