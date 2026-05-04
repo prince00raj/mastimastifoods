@@ -12,9 +12,9 @@ window.MASTI_CONFIG = {
 
   GOOGLE_SHEETS: {
     ENABLED: true,
-    REVIEWS_WEB_APP_URL: "https://script.google.com/macros/s/AKfycbxJW6s_E5007KH9dKuHMOntqAaLbTXNWuCF4Sb4fj0sswCrgFG3gaOZor1-MMBKSdMWDg/exec",
-    ORDERS_WEB_APP_URL: "https://script.google.com/macros/s/AKfycbxJW6s_E5007KH9dKuHMOntqAaLbTXNWuCF4Sb4fj0sswCrgFG3gaOZor1-MMBKSdMWDg/exec",
-    STOCKISTS_WEB_APP_URL: "https://script.google.com/macros/s/AKfycbxJW6s_E5007KH9dKuHMOntqAaLbTXNWuCF4Sb4fj0sswCrgFG3gaOZor1-MMBKSdMWDg/exec",
+    REVIEWS_WEB_APP_URL: "https://script.google.com/macros/s/AKfycbyTP2j9hIyG_RuU-anRm3QD2NnNzmbBgV8HzV2A_RcLbWCpSS0jjHe1OmXX9mEa4_5iOw/exec",
+    ORDERS_WEB_APP_URL: "https://script.google.com/macros/s/AKfycbyTP2j9hIyG_RuU-anRm3QD2NnNzmbBgV8HzV2A_RcLbWCpSS0jjHe1OmXX9mEa4_5iOw/exec",
+    STOCKISTS_WEB_APP_URL: "https://script.google.com/macros/s/AKfycbyTP2j9hIyG_RuU-anRm3QD2NnNzmbBgV8HzV2A_RcLbWCpSS0jjHe1OmXX9mEa4_5iOw/exec",
     REVIEWS_SHEET_NAME: "Reviews",
     ORDERS_SHEET_NAME: "Orders",
     STOCKISTS_SHEET_NAME: "Stockists"

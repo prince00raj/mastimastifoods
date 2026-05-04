@@ -8,75 +8,77 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="scene-noise" aria-hidden="true"></div>
-  <div class="ambient-stage" aria-hidden="true">
-    <span class="orbit orbit-one"></span>
-    <span class="orbit orbit-two"></span>
-    <span class="orbit orbit-three"></span>
-  </div>
+<div class="scene-noise" aria-hidden="true"></div>
+<div class="ambient-stage" aria-hidden="true">
+  <span class="orbit orbit-one"></span>
+  <span class="orbit orbit-two"></span>
+  <span class="orbit orbit-three"></span>
+</div>
 
-  <header class="site-header">
-    <a class="brandmark" href="#home" aria-label="Masti Masti home">
-      <img src="./assets/masti/logo.jpg" alt="Masti Masti logo" />
-      <span>
+<header class="site-header">
+  <a class="brandmark" href="#home" aria-label="Masti Masti home">
+    <img src="./assets/masti/logo.jpg" alt="Masti Masti logo" />
+    <span>
         <strong>Masti Masti</strong>
         <small data-i18n="tagline">3D Desi Snack Store</small>
       </span>
-    </a>
+  </a>
 
-    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+  <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 
-    <nav class="site-nav" id="siteNav" aria-label="Primary menu">
-      <a href="#home" data-route="home" data-i18n="navHome">Home</a>
-      <a href="#news" data-route="news" data-i18n="navNews">News</a>
-      <a href="#cart" data-route="cart"><span data-i18n="navCart">Cart</span> <b id="cartCount">0</b></a>
-      <a href="#products" data-route="products" data-i18n="navProducts">Products</a>
-      <a href="#learn" data-route="learn" data-i18n="navLearn">Learn</a>
-      <a href="#events" data-route="events" data-i18n="navEvents">Events</a>
-      <a href="#rate" data-route="rate" data-i18n="navRate">Rate Us</a>
-      <a href="#member" data-route="member" data-i18n="navMember">Become a Stockist</a>
-      <a href="#retailer-login" data-route="retailer-login" data-i18n="navRetailerLogin">Retailer Login</a>
-      <a href="#about" data-route="about" data-i18n="navAbout">About</a>
-      <a href="#return-policy" data-route="return-policy" data-i18n="navReturn">Return Policy</a>
-      <a href="#refund-policy" data-route="refund-policy" data-i18n="navRefund">Refund Policy</a>
-      <a href="#privacy" data-route="privacy" data-i18n="navPrivacy">Privacy Policy</a>
-      <a href="#disclaimer" data-route="disclaimer" data-i18n="navDisclaimer">Disclaimer</a>
-      <label class="language-select">
-        <span data-i18n="navLanguage">Language</span>
-        <select id="languageSelect" aria-label="Choose language">
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
-        </select>
-      </label>
-      <a href="#contact" data-route="contact" data-i18n="navContact">Contact Us</a>
-    </nav>
-  </header>
+  <nav class="site-nav" id="siteNav" aria-label="Primary menu">
+    <a href="#home" data-route="home" data-i18n="navHome">Home</a>
+    <a href="#news" data-route="news" data-i18n="navNews">News</a>
+    <a href="#cart" data-route="cart"><span data-i18n="navCart">Cart</span> <b id="cartCount">0</b></a>
+    <a href="#products" data-route="products" data-i18n="navProducts">Products</a>
+    <a href="#learn" data-route="learn" data-i18n="navLearn">Learn</a>
+    <a href="#events" data-route="events" data-i18n="navEvents">Events</a>
+    <a href="#rate" data-route="rate" data-i18n="navRate">Rate Us</a>
+    <a href="#member" data-route="member" data-i18n="navMember">Become a Stockist</a>
+    <a href="#retailer-login" data-route="retailer-login" data-i18n="navRetailerLogin">Retailer Login</a>
+    <a href="#about" data-route="about" data-i18n="navAbout">About</a>
+    <a href="#return-policy" data-route="return-policy" data-i18n="navReturn">Return Policy</a>
+    <a href="#refund-policy" data-route="refund-policy" data-i18n="navRefund">Refund Policy</a>
+    <a href="#privacy" data-route="privacy" data-i18n="navPrivacy">Privacy Policy</a>
+    <a href="#disclaimer" data-route="disclaimer" data-i18n="navDisclaimer">Disclaimer</a>
+    <label class="language-select">
+      <span data-i18n="navLanguage">Language</span>
+      <select id="languageSelect" aria-label="Choose language">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+      </select>
+    </label>
+    <a href="#contact" data-route="contact" data-i18n="navContact">Contact Us</a>
+  </nav>
+</header>
 
-  <main id="app" class="app-shell" tabindex="-1"></main>
+<main id="app" class="app-shell" tabindex="-1"></main>
 
-  <footer class="site-footer">
-    <div>
-      <strong>Masti Masti Snacks</strong>
-      <p data-i18n="footerText">Factory-fresh desi snacks, direct from Shahjahanpur to every snack shelf.</p>
-    </div>
-    <div class="footer-links">
-      <a href="#privacy">Privacy</a>
-      <a href="#return-policy">Return Policy</a>
-      <a href="#refund-policy">Refund Policy</a>
-      <a href="#disclaimer">Disclaimer</a>
-      <a href="#about">About</a>
-    </div>
-    <p class="developer-credit">
-      Developed and Managed by
-      <a href="https://chandra-port.vercel.app/" target="_blank" rel="noopener noreferrer">Chandra Mohan Singh</a>
-    </p>
-  </footer>
+<footer class="site-footer">
+  <div>
+    <strong>Masti Masti Snacks</strong>
+    <p data-i18n="footerText">Factory-fresh desi snacks, direct from Shahjahanpur to every snack shelf.</p>
+  </div>
+  <div class="footer-links">
+    <a href="#privacy">Privacy</a>
+    <a href="#return-policy">Return Policy</a>
+    <a href="#refund-policy">Refund Policy</a>
+    <a href="#disclaimer">Disclaimer</a>
+    <a href="#about">About</a>
+  </div>
+  <p class="developer-credit">
+    Developed and Managed by
+    <a href="https://chandra-port.vercel.app/" target="_blank" rel="noopener noreferrer">Chandra Mohan Singh</a>
+  </p>
+</footer>
 
-  <button class="support-chat-button" type="button" id="supportChatButton" aria-label="Open support chat">Chat</button>
+<button class="support-chat-button" type="button" id="supportChatButton" aria-label="Open support chat">Chat</button>
 
-  <script src="./config.js"></script>
-  <script src="./script.js"></script>
+<script src="./config.js"></script>
+<script src="./script.js"></script>
+<!-- PDF invoice library (added only for billing feature) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </body>
 </html>

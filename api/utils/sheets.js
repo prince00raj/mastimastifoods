@@ -1,14 +1,9 @@
 import { google } from 'googleapis';
 
 export async function getSheetsClient() {
-  const base64Creds = process.env.GOOGLE_CREDENTIALS;
-  if (!base64Creds) {
-    throw new Error('Missing GOOGLE_CREDENTIALS environment variable');
-  }
-  const credsJson = Buffer.from(base64Creds, 'base64').toString();
-  const credentials = JSON.parse(credsJson);
+  const creds = JSON.parse(Buffer.from(process.env.GOOGLE_CREDENTIALS, 'base64').toString());
   const auth = new google.auth.GoogleAuth({
-    credentials,
+    credentials: creds,
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
   return google.sheets({ version: 'v4', auth });

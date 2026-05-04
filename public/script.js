@@ -470,17 +470,18 @@ function sendEmailJs(templateId, payload) {
 }
 
 async function postToGoogleSheets(url, payload) {
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/1hcNGsx63a1iu3oxVLDUZEtDqFjE6D6Jzzge6C3suQJ4/exec";
   try {
-    const response = await fetch('/api/sheets-proxy', {   // <-- use this endpoint
+    const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    const data = await response.json();
-    console.log('API Response:', data);
+    const data = await response.text();  // or .json() if the script returns JSON
+    console.log('Google Sheets Response:', data);
     return { success: true, data };
   } catch (error) {
-    console.error('API Error:', error);
+    console.error('Google Sheets Error:', error);
     return { success: false, error };
   }
 }

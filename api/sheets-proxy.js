@@ -1,5 +1,5 @@
 // This function forwards requests to your Apps Script Web App
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_ID/exec'; // replace with your working URL
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbyTP2j9hIyG_RuU-anRm3QD2NnNzmbBgV8HzV2A_RcLbWCpSS0jjHe1OmXX9mEa4_5iOw/exec'; // replace with your working URL
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
